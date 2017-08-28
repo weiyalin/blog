@@ -3,8 +3,8 @@
         <div class="title">
             {{ app_name }}
         </div>
-        <el-menu default-active="1" class="el-menu-cls" :router=false mode="horizontal" @select='handleSelect'>
-            <el-submenu index="user">
+        <el-menu default-active="1" class="el-menu-cls header_menu" :router=false mode="horizontal" @select='handleSelect'>
+            <el-submenu index="user" class="username">
                 <template slot="title">{{ username }}</template>
                 <el-menu-item index="/user/password">修改密码</el-menu-item>
             </el-submenu>
@@ -16,7 +16,7 @@
     </div>
 </template>
 <style>
-    .el-submenu__icon-arrow{
+    .username > .el-submenu__title> .el-icon-caret-bottom{
         color: white !important;
     }
     .my_header > ul {
@@ -33,7 +33,6 @@
     }
 
     .my_header {
-        /*background-color: rgb(32, 160, 255);*/
         background-color: #3869D4;
     }
 
@@ -44,8 +43,7 @@
         font-size: 24px;
         color: #fff;
     }
-
-    .el-menu {
+    .header_menu{
         float: right;
         margin-right: 20px;
     }

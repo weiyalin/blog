@@ -35,7 +35,6 @@ class Menu extends Model
                 $data[$v->id] = $v;
             }
         }
-        //使sort_factor起作用，分两次循环（仅用code排序时，循环一次就够了）
         foreach ($menus as $v) {
             if ($v->depth == 2) {
                 $data[$v->pid]->children[] = $v;

@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-menu :default-active="current" :default-openeds="opened"
-                 :router="true" class="my_menu" :collapse="isCollapse">
+                 :router="true" class="my_menu menu" :collapse="isCollapse">
             <li class="el-menu-item menu_change_h" @click="change_menu"
                 style="height: 40px;line-height: 40px;">
             </li>
@@ -15,13 +15,12 @@
                 </el-menu-item>
             </el-submenu>
         </el-menu>
-
     </div>
 </template>
 <style scoped>
 
     .menu_change_h {
-        background-color: rgb(104,191,255);
+        background-color: rgb(185, 235, 255);
     }
 
     .menu_change_h:hover {

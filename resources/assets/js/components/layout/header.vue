@@ -8,7 +8,7 @@
                 <template slot="title">{{ username }}</template>
                 <el-menu-item index="/user/password">修改密码</el-menu-item>
             </el-submenu>
-            <el-menu-item index='logout'>
+            <el-menu-item index='logout' style="background-color: transparent !important;">
                 退出系统
             </el-menu-item>
         </el-menu>
@@ -29,11 +29,10 @@
 
     .my_header > ul > li:hover, .my_header .el-submenu__title:hover {
         background-color: transparent !important;
-        border-bottom-color: rgba(255, 255, 255, 0.5) !important;
     }
 
     .my_header {
-        background-color: #3869D4;
+        background-color: rgb(0, 125, 251);
     }
 
     .my_header .title {

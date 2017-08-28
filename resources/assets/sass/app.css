@@ -3,3 +3,16 @@ body, div, span, button, code, input, select, textarea {
     padding: 0;
     font-family: "Segoe UI", "Lucida Grande", Helvetica, Arial, "Microsoft YaHei", FreeSans, Arimo, "Droid Sans", "wenquanyi micro hei", "Hiragino Sans GB", "Hiragino Sans GB W3", Arial, sans-serif;
 }
+.clearboth:after{
+    content: " ";
+    clear: both;
+    display:block;
+}
+body {
+    overflow-x: hidden;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}

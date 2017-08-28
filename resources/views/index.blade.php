@@ -9,11 +9,8 @@
     <link rel="stylesheet" href="{{ url('dist/css/app.css') }}">
     <title>Document</title>
 </head>
-<body style="background: url({{ url('dist/img/body_bg.jpg') }})">
-<div style="background: url({{ url('dist/img/head_bg.jpg') }}) no-repeat center -79px;
-        min-height: 300px;">
+<body>
     <div id='app'></div >
-</div>
 </body>
 <script type="text/javascript" src="{{ url('dist/js/manifest.js') }}"></script>
 <script type="text/javascript" src="{{ url('dist/js/vendor.js') }}"></script>

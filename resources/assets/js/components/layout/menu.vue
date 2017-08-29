@@ -6,12 +6,13 @@
                 style="height: 40px;line-height: 40px;">
             </li>
             <el-submenu v-for="menu in menus" :index.sync="menu.path" :router="true" :key = "menu.id">
-                <template slot="title" style="position: relative">
-                    <i :class="menu.icon" style="position: absolute; left: 24px; top: 21px"></i>
-                    <span slot="title" style="padding-left: 20px">{{ menu.name }}</span>
+                <template slot="title">
+                    <i :class="menu.icon"></i>
+                    <span slot="title">{{ menu.name }}</span>
                 </template>
                 <el-menu-item v-for="item in menu.children" :index.sync="item.path" :key = "item.id">
-                    <i :class="item.icon" class="menu-icon"></i>{{ item.name }}
+                    <i :class="item.icon"></i>
+                    <span>{{ item.name }}</span>
                 </el-menu-item>
             </el-submenu>
         </el-menu>
@@ -20,11 +21,11 @@
 <style scoped>
 
     .menu_change_h {
-        background-color: rgb(185, 235, 255);
+        background-color: rgb(220, 235, 228);
     }
 
     .menu_change_h:hover {
-        background-color: #20A0FF !important;
+        background-color: rgb(200, 223, 214);
     }
     .my_menu:not(.el-menu--collapse) {
         text-align: left;

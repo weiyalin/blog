@@ -20,8 +20,9 @@ a {
     position: absolute;
     top: 60px;
     bottom: 0;
-    background-color: rgb(210, 240, 255);
+    background-color: rgb(238, 246, 244);
 }
+/*
 .menu{
     background-color: rgb(210, 240, 255) !important;
 }
@@ -30,4 +31,4 @@ a {
 }
 .el-submenu .el-menu-item:hover, .el-submenu__title:hover {
     background-color: rgb(120, 210, 255) !important;
-}
+}*/

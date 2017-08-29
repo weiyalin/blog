@@ -13,7 +13,6 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-import 'element-ui/lib/theme-default/index.css'
 import ElementUI from 'element-ui'
 import App from './App.vue'
 import router from './router/index.js'

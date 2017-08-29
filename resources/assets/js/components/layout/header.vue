@@ -8,7 +8,7 @@
                 <template slot="title">{{ username }}</template>
                 <el-menu-item index="/user/password">修改密码</el-menu-item>
             </el-submenu>
-            <el-menu-item index='logout' style="background-color: transparent !important;">
+            <el-menu-item index='logout'>
                 退出系统
             </el-menu-item>
         </el-menu>
@@ -18,6 +18,9 @@
 <style>
     .username > .el-submenu__title> .el-icon-caret-bottom{
         color: white !important;
+    }
+    .header_menu > .is-active{
+        color: rgb(0, 115, 57) !important;
     }
     .my_header > ul {
         background-color: transparent !important;
@@ -32,7 +35,7 @@
     }
 
     .my_header {
-        background-color: rgb(0, 125, 251);
+        background-color: rgb(0, 168, 84);
     }
 
     .my_header .title {

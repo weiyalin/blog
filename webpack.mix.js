@@ -44,5 +44,6 @@ mix.webpackConfig({
 mix.js('resources/assets/js/app.js', 'js')
     .extract(["vue", "element-ui", "vue-router"])
     .copy('resources/assets/sass/app.css', 'public/dist/css')
-    .copy('resources/assets/img','public/dist/img');
+    .copy('resources/assets/img','public/dist/img')
+    .copy('resources/assets/element-theme','public/dist/element-theme');
 

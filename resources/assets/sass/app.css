@@ -3,7 +3,7 @@ body, div, span, button, code, input, select, textarea {
     padding: 0;
     font-family: "Segoe UI", "Lucida Grande", Helvetica, Arial, "Microsoft YaHei", FreeSans, Arimo, "Droid Sans", "wenquanyi micro hei", "Hiragino Sans GB", "Hiragino Sans GB W3", Arial, sans-serif;
 }
-.clearboth:after{
+.clear_both:after{
     content: " ";
     clear: both;
     display:block;
@@ -16,19 +16,25 @@ a {
     color: black;
     text-decoration: none;
 }
-.page-menu {
+.main {
     position: absolute;
     top: 60px;
     bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0;
+}
+.page-menu {
+    position: absolute;
+    top: 0;
+    bottom: 0;
     background-color: rgb(238, 246, 244);
 }
-/*
-.menu{
-    background-color: rgb(210, 240, 255) !important;
+.page-content{
+    position: absolute;
+    top: 0;
+    left: 200px;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(38, 246, 244);
 }
-.el-menu-item{
-    background-color: rgb(180, 230, 255) !important;
-}
-.el-submenu .el-menu-item:hover, .el-submenu__title:hover {
-    background-color: rgb(120, 210, 255) !important;
-}*/

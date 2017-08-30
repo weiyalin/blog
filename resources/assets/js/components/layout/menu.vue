@@ -28,7 +28,9 @@
         -o-transform: rotate(90deg);
     }
     .menu-icon{
-        font-size: 18px;
+        padding-left: 5px;
+        padding-right: 5px;
+        font-size: 20px;
     }
     .menu_change_h {
         background-color: rgb(220, 235, 228);
@@ -69,10 +71,15 @@
                 })
             },
             change_menu(){
-                if (this.isCollapse === true)
+                if (this.isCollapse === true){
                     this.isCollapse = false;
-                else
+//                    $(".page-content").css("margin-left" , "200px");
+                }
+
+                else{
                     this.isCollapse = true;
+//                    $(".page-content").css("margin-left" , "64px");
+                }
             }
         },
         created(){

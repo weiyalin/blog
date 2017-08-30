@@ -1,11 +1,9 @@
 <template>
-    <div class="full">
+    <div>
         <pageHeader></pageHeader>
-        <div class="main clear_both">
+        <div>
             <div class="page-menu">
-                <div class="page-menu-background">
-                    <pageMenu></pageMenu>
-                </div>
+                <pageMenu></pageMenu>
             </div>
             <div class="page-content">
                 <router-view></router-view>

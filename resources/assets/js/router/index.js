@@ -6,8 +6,8 @@ export default new VueRouter({
     saveScrollPosition: true,
     routes: [
         {
-            path: '/index',
-            component: resolve =>void(require(['../components/layout/menu.vue'], resolve))
+            path: '/',
+            component: resolve =>void(require(['../components/index.vue'], resolve))
         },
         {
             path: '/article/create_article',

@@ -39,6 +39,9 @@
     .menu_change_h:hover {
         background-color: rgb(200, 223, 214);
     }
+    .menu{
+        transition: 0s;
+    }
     .my_menu:not(.el-menu--collapse) {
         text-align: left;
         width: 200px;
@@ -73,12 +76,11 @@
             change_menu(){
                 if (this.isCollapse === true){
                     this.isCollapse = false;
-//                    $(".page-content").css("margin-left" , "200px");
+                    $(".page-content").css('margin-left', '200px');
                 }
-
                 else{
                     this.isCollapse = true;
-//                    $(".page-content").css("margin-left" , "64px");
+                    $(".page-content").css('margin-left', '64px');
                 }
             }
         },

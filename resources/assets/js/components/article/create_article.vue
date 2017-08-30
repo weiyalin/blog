@@ -1,5 +1,29 @@
 <template>
     <div>
-        create_article.vue
+        <!--头部位置-->
+        <div class="breadcrumb">
+            <i class="ion-ios-home home-ion"></i>
+            <el-breadcrumb separator="/">
+                <el-breadcrumb-item to="/">首页</el-breadcrumb-item>
+                <el-breadcrumb-item to="/">文章</el-breadcrumb-item>
+                <el-breadcrumb-item>写文章</el-breadcrumb-item>
+            </el-breadcrumb>
+        </div>
     </div>
 </template>
+<script>
+    export default {
+        data() {
+            return {
+
+            }
+        },
+        methods: {
+
+
+        },
+        mounted(){
+
+        }
+    }
+</script>

@@ -1,14 +1,14 @@
 <template>
-    <div>
+    <div class="full">
         <pageHeader></pageHeader>
-        <div class="main">
+        <div class="main clear_both">
             <div class="page-menu">
-                <pageMenu></pageMenu>
+                <div class="page-menu-background">
+                    <pageMenu></pageMenu>
+                </div>
             </div>
             <div class="page-content">
-                <div style="padding:10px 20px 35px;">
-                    <router-view></router-view>
-                </div>
+                <router-view></router-view>
             </div>
         </div>
     </div>

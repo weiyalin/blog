@@ -16,9 +16,4 @@ class MenuController extends Controller
     public function get_menu(){
         return responseToJson(0, 'success', Menu::get_menu());
     }
-    public function sign(Request $request){
-        $name = $request->name;
-        $num = $request->num;
-        echo $name.'=='.$num;
-    }
 }

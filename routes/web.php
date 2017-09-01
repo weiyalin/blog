@@ -13,8 +13,7 @@
 
 Route::get('/', function () {
 //    return view('welcome');
-//    return view('index');
-    return view('sign');
+    return view('index');
 });
 Route::get('get_menu','User\MenuController@get_menu');
 //Route::get('/get_role_menu','User\MenuController@/get_role_menu');

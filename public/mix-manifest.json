@@ -2,5 +2,6 @@
     "/js/vendor.js": "/js/vendor.js",
     "/js/app.js": "/js/app.js",
     "/js/manifest.js": "/js/manifest.js",
+    "/dist/bootstrap-3.3.7": "/dist/bootstrap-3.3.7",
     "/dist/css/app.css": "/dist/css/app.css"
 }

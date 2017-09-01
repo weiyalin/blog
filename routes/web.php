@@ -13,7 +13,9 @@
 
 Route::get('/', function () {
 //    return view('welcome');
-    return view('index');
+//    return view('index');
+    return view('sign');
 });
 Route::get('get_menu','User\MenuController@get_menu');
 //Route::get('/get_role_menu','User\MenuController@/get_role_menu');
+Route::post('/sign','User\MenuController@sign');

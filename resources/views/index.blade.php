@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{{ url('dist/element-theme/index.css') }}" />
     <link rel="stylesheet" href="{{ url('dist/css/ionicons.min.css') }}">
     <link rel="stylesheet" href="{{ url('dist/css/app.css') }}">
-    <title>Document</title>
+    <title>MyBlog</title>
 </head>
 <body>
     <div id='app'></div >
@@ -18,4 +18,9 @@
 <script type="text/javascript" src="{{ url('dist/js/manifest.js') }}"></script>
 <script type="text/javascript" src="{{ url('dist/js/vendor.js') }}"></script>
 <script type="text/javascript" src="{{ url('dist/js/app.js') }}"></script>
+<!-- include summernote -->
+<link rel="stylesheet" href="{{ url('dist/bootstrap-3.3.7/dist/css/bootstrap.css') }}">
+<script src="{{ url('dist/bootstrap-3.3.7/dist/js/bootstrap.min.js') }}" ></script>
+<link type="text/css" rel="stylesheet" href="{{ url('dist/summernote-master/dist/summernote.css') }}" />
+<script type="text/javascript" src="{{ url('dist/summernote-master/dist/summernote.js') }}"></script>
 </html>

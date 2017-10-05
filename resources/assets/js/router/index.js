@@ -7,7 +7,7 @@ export default new VueRouter({
     routes: [
         {
             path: '/',
-            component: resolve =>void(require(['../components/index.vue'], resolve))
+            component: resolve =>void(require(['../components/index/index.vue'], resolve))
         },
         {
             path: '/article/create_article',

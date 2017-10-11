@@ -64,7 +64,6 @@
                 var self = this;
                 self.current = self.$route.path
                 self.$http.get('/get_menu').then(function (res) {
-                    console.log(res);
                     self.menus = res.data.result;
                     for (var i = 0; i < self.menus.length; i++) {
                         if (window.location.hash.indexOf(self.menus[i].path) >= 0) {

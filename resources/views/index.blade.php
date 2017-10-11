@@ -11,6 +11,11 @@
     <link rel="stylesheet" href="{{ url('dist/css/ionicons.min.css') }}">
     <link rel="stylesheet" href="{{ url('dist/css/app.css') }}">
     <title>MyBlog</title>
+    <script>
+        window.Laravel = <?php echo json_encode([
+            'csrfToken' => csrf_token(),
+        ]); ?>
+    </script>
 </head>
 <body>
     <div id='app'></div >

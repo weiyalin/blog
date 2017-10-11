@@ -138,3 +138,11 @@ function filter_filename($filename)
         $filename
     );
 }
+
+function get_user_id()
+{
+    if (empty(session("user"))) {
+        return 0;
+    }
+    return session('user')->id;
+}

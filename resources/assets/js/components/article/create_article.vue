@@ -9,9 +9,8 @@
                 <el-breadcrumb-item>写文章</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
-
-        <el-form ref="form" :model="form" label-width="80px">
-            <el-form-item label="文章版权">
+        <el-form :model="form" ref="form"  label-width="80px">
+            <el-form-item label="文章版权" prop="copyright">
                 <el-select v-model="form.copyright" placeholder="请选择版权类型">
                     <el-option label="原创" value=1></el-option>
                     <el-option label="转载" value=2></el-option>
@@ -22,8 +21,9 @@
                 <el-upload
                         class="avatar-uploader"
                         name="files"
-                        action="https://jsonplaceholder.typicode.com/posts/"
-                        :auto-upload="false"
+                        :data="csrf_token"
+                        action="/article/cover_upload"
+                        :auto-upload="true"
                         :show-file-list="false"
                         :on-success="handleAvatarSuccess"
                         :before-upload="beforeAvatarUpload">
@@ -31,18 +31,18 @@
                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
             </el-form-item>
-            <el-form-item label="文章标题">
-                <el-input v-model="form.title"></el-input>
+            <el-form-item label="文章标题" prop="title">
+                <el-input v-model.trim="form.title"></el-input>
             </el-form-item>
-            <el-form-item label="文章内容">
-                <div v-model="form.content" id="summernote"></div>
+            <el-form-item label="文章内容" prop="content">
+                <el-row v-model.trim="form.content" id="summernote"></el-row>
             </el-form-item>
-            <el-form-item label="文章标签">
+            <el-form-item label="文章标签" prop="dynamicTags_select">
                 <el-row>
                     <el-col style="border: 1px solid rgb(191,217,207); border-radius: 3px; padding:0 10px; min-height: 38px;background-color: white">
                         <el-tag style="margin-right: 10px"
                             type="success"
-                            v-for="tag,index in dynamicTags_select"
+                            v-for="(tag,index) in form.dynamicTags_select"
                             :key="tag.name"
                             :closable="true"
                             :close-transition="false"
@@ -75,7 +75,7 @@
                                 v-if="inputVisible"
                                 v-model="inputValue"
                                 ref="saveTagInput"
-                                size="mini"
+                                size="small"
                                 @keyup.enter.native="handleInputConfirm"
                                 @blur="handleInputConfirm"
                             >
@@ -84,6 +84,20 @@
                         </el-row>
                     </el-col>
                 </el-row>
+            </el-form-item>
+            <el-form-item label="文章摘要" prop="summary">
+                <el-input
+                        type="textarea"
+                        :maxlength='maxLength'
+                        :rows="3"
+                        placeholder="请输入内容"
+                        v-model.trim="form.summary">
+                </el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="onSubmit(1)" :loading="isSubmiting">发布</el-button>
+                <el-button type="primary" @click="onSubmit(0)">存为草稿</el-button>
+                <el-button type="primary" @click="resetForm('form')">舍弃</el-button>
             </el-form-item>
         </el-form>
 
@@ -124,18 +138,23 @@
 </style>
 <script>
     import index from "../../router/index";
-
+    import Form from './data/form';
     export default {
         data() {
             return {
-                form: {
-                    copyright: '',
-                    title: '',
-                    content: '',
+                csrf_token: {
+                    _token: Laravel.csrfToken
                 },
-                imageUrl: '',
-
-                dynamicTags_select: [],
+                form: {
+                    copyright:  '',
+                    title:      '',
+                    coverName:  '',
+                    content:    '',
+                    summary:    '',
+                    status:     1,
+                    dynamicTags_select: [],
+                },
+                imageUrl:   '',
                 dynamicTags: [
                     { name: '标签一', type: 'warning' },
                     { name: '标签二', type: 'warning' },
@@ -146,12 +165,40 @@
                 ],
                 inputVisible: false,
                 inputValue: '',
+                maxLength: 300,
+                isSubmiting:false
             }
         },
-
         methods: {
-            onSubmit() {
-                console.log('submit!');
+            onSubmit(type = 1) {
+                var self = this;
+                self.isSubmiting = true;
+                self.form.status = type;
+                self.form.content = $('#summernote').summernote('code');
+
+                var form = new Form();
+                form.setSubmit(self.form, (result,error)=>{
+                    if(result){
+                        self.$message({
+                            title: '提示',
+                            message: result,
+                            type: 'success'
+                        });
+                        self.isSubmiting = false;
+                        //跳转
+                        /*self.$router.push({
+                            path: '/user/org'
+                        })*/
+                    }
+                    else {
+                        self.$message({
+                            title: '提示',
+                            message: error,
+                            type: 'warning'
+                        });
+                        self.isSubmiting = false;
+                    }
+                });
             },
             create_summernote(){
                 $('#summernote').summernote({
@@ -163,37 +210,40 @@
                 });
             },
             handleAvatarSuccess(res, file) {
-                this.imageUrl = URL.createObjectURL(file.raw);
+                if(res.code == 0){
+                    this.form.coverName = res.result;
+                    this.imageUrl = '/article/cover_img?name='+res.result;
+                } else {
+                    this.$message.error(res.msg);
+                }
             },
             beforeAvatarUpload(file) {
                 const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
                 const isLt2M = file.size / 1024 / 1024 < 2;
 
                 if (!isJPG) {
-                    this.$message.error('上传头像图片只能是 JPG 格式!');
+                    this.$message.error('上传头像图片只能是 JPG/PNG 格式!');
                 }
                 if (!isLt2M) {
                     this.$message.error('上传头像图片大小不能超过 2MB!');
                 }
                 return isJPG && isLt2M;
             },
-
-            //TODO::完善标签添加
             allTagClick(tag){
                 self = this;
                 let tagIndex = self.dynamicTags.indexOf(tag);
                 if (tag.type == 'warning'){
-                    if ( self.dynamicTags_select.length >= 5 )
+                    if ( self.form.dynamicTags_select.length >= 5 )
                         return;
                     tag.type = 'success';
                     let newTag = {
                         name: tag.name,
                         tagIndex: tagIndex
                     };
-                    self.dynamicTags_select.push(newTag);
+                    self.form.dynamicTags_select.push(newTag);
                 } else {
                     tag.type = 'warning';
-                    self.dynamicTags_select.forEach(function(value, index, array) {
+                    self.form.dynamicTags_select.forEach(function(value, index, array) {
                         if(value.tagIndex == tagIndex){
                             array.splice(index,1);
                         }
@@ -203,27 +253,30 @@
             handleClose(tag,index) {
                 if(tag.tagIndex >= 0)
                     this.dynamicTags[tag.tagIndex].type = 'warning';
-                this.dynamicTags_select.splice(index, 1);
+                this.form.dynamicTags_select.splice(index, 1);
             },
-
             showInput() {
                 this.inputVisible = true;
                 this.$nextTick(_ => {
                     this.$refs.saveTagInput.$refs.input.focus();
                 });
             },
-
             handleInputConfirm() {
                 let inputValue = this.inputValue.trim();
-                if (inputValue && this.dynamicTags_select.length < 5) {
+                if (inputValue && this.form.dynamicTags_select.length < 5) {
                     let tag = {
                         name: inputValue,
                         tagIndex: -1
                     };
-                    this.dynamicTags_select.push(tag);
+                    this.form.dynamicTags_select.push(tag);
                 }
                 this.inputVisible = false;
                 this.inputValue = '';
+            },
+            resetForm(formName) {
+                this.$refs[formName].resetFields();
+                this.dynamicTags = [];
+                $('#summernote').summernote('code','');
             }
         },
         mounted(){

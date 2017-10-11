@@ -8,11 +8,10 @@
 
 namespace App\Http\Models;
 
-use \Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;
 use DB;
 class Menu extends Model
 {
-
     static function get_menu()
     {
         $menus = self::get_format_menu();

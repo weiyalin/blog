@@ -82,6 +82,11 @@ class CreateController extends Controller
                     'article_id' => $article_id
                 ]);
             }
+            if($id){
+                return responseToJson(0,'文章发布成功');
+            }else{
+                return responseToJson(0,'文章已经存为草稿');
+            }
         }else{
             return responseToJson(1,'文章保存失败');
         }

@@ -13,6 +13,11 @@
 
 Route::get('/', function () {
 //    return view('welcome');
+    $user = [
+        'id'   => 1,
+        'name' => 'admin'
+    ];
+    session('user',$user);
     return view('index');
 });
 Route::get('get_menu','User\MenuController@get_menu');

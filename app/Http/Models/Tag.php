@@ -22,4 +22,7 @@ class Tag extends Model
             return DB::table('tag')->insertGetId($tag);
         }
     }
+    static function getTag(){
+        return DB::table('tag')->where('user_id',get_user_id())->get();
+    }
 }

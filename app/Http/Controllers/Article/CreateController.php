@@ -71,24 +71,32 @@ class CreateController extends Controller
         ];
         $article_id = Article::create_article_get_id($article,$id);
         if($article_id){
-            foreach ($dynamicTags_select as $value){
-                $tag = [
-                    'name'    => $value['name'],
-                    'user_id' => get_user_id(),
-                ];
-                $tag_id = Tag::create_tag_get_id($tag);
-                ArticleTag::create_article_tag([
-                    'tag_id'     => $tag_id,
-                    'article_id' => $article_id
-                ]);
+            if(count($dynamicTags_select)){
+                foreach ($dynamicTags_select as $value){
+                    $tag = [
+                        'name'    => $value['name'],
+                        'user_id' => get_user_id(),
+                    ];
+                    $tag_id = Tag::create_tag_get_id($tag);
+                    ArticleTag::create_article_tag([
+                        'tag_id'     => $tag_id,
+                        'article_id' => $article_id
+                    ]);
+                }
             }
-            if($id){
-                return responseToJson(0,'文章发布成功');
-            }else{
-                return responseToJson(0,'文章已经存为草稿');
-            }
+            return responseToJson(0,'文章保存成功');
         }else{
             return responseToJson(1,'文章保存失败');
         }
+    }
+    function getTag(){
+        $tagNames = Tag::getTag();
+        $tags = [];
+        if($tagNames){
+            foreach ($tagNames as $tag){
+                $tags[] = ['name' => $tag->name];
+            }
+        }
+        return responseToJson(0,'查询成功',$tags);
     }
 }

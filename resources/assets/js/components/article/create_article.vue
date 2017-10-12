@@ -55,33 +55,33 @@
                 </el-row>
                 <el-row>
                     <el-col style="border: 1px solid rgb(191,217,207); border-radius: 3px; padding:0 10px; min-height: 38px;background-color: white">
-                        <el-row>
-                            <el-col>全部标签:</el-col>
+                        <el-form-item label="可选标签:">
                             <el-col>
                                 <el-tag style="margin-right: 10px;"
-                                    v-for="tag in dynamicTags"
-                                    :key="tag.name"
-                                    :closable="false"
-                                    :type="tag.type"
-                                    :close-transition="false"
+                                        v-for="tag in dynamicTags"
+                                        :key="tag.name"
+                                        :closable="false"
+                                        :type="tag.type"
+                                        :close-transition="false"
                                 >
                                     <span style="padding: 5px 12px; cursor: pointer;" @click = "allTagClick(tag)">{{tag.name}}</span>
                                 </el-tag>
+                                <span v-if="!dynamicTags.length">暂无</span>
                             </el-col>
-                        </el-row>
-                        <el-row>
+                        </el-form-item>
+                        <el-form-item label="添加标签:">
                             <el-input
-                                class="input-new-tag"
-                                v-if="inputVisible"
-                                v-model="inputValue"
-                                ref="saveTagInput"
-                                size="small"
-                                @keyup.enter.native="handleInputConfirm"
-                                @blur="handleInputConfirm"
+                                    class="input-new-tag"
+                                    v-if="inputVisible"
+                                    v-model="inputValue"
+                                    ref="saveTagInput"
+                                    size="small"
+                                    @keyup.enter.native="handleInputConfirm"
+                                    @blur="handleInputConfirm"
                             >
                             </el-input>
                             <el-button v-else class="button-new-tag" size="small" @click="showInput">+ 添加标签</el-button>
-                        </el-row>
+                        </el-form-item>
                     </el-col>
                 </el-row>
             </el-form-item>
@@ -97,7 +97,8 @@
             <el-form-item>
                 <el-button type="primary" @click="onSubmit(1)" :loading="isSubmiting">发布</el-button>
                 <el-button type="primary" @click="onSubmit(0)">存为草稿</el-button>
-                <el-button type="primary" @click="resetForm('form')">舍弃</el-button>
+                <!--<el-button type="primary" @click="resetForm('form')">舍弃</el-button>-->
+                <el-button type="primary" @click="giveUp">舍弃</el-button>
             </el-form-item>
         </el-form>
 
@@ -155,14 +156,7 @@
                     dynamicTags_select: [],
                 },
                 imageUrl:   '',
-                dynamicTags: [
-                    { name: '标签一', type: 'warning' },
-                    { name: '标签二', type: 'warning' },
-                    { name: '标签三', type: 'warning' },
-                    { name: '标签四', type: 'warning' },
-                    { name: '标签五', type: 'warning' },
-                    { name: '标签六', type: 'warning' }
-                ],
+                dynamicTags: [],
                 inputVisible: false,
                 inputValue: '',
                 maxLength: 300,
@@ -170,35 +164,59 @@
             }
         },
         methods: {
+            test(){
+                if(this.form.copyright.length === 0){
+                    this.$message({
+                        showClose: true,
+                        message: '请选择版权类型',
+                        type: 'warning'
+                    });
+                }else if(this.form.title.length === 0){
+                    this.$message({
+                        showClose: true,
+                        message: '请填写文章标题',
+                        type: 'warning'
+                    });
+                }else if(this.form.content.length === 0){
+                    this.$message({
+                        showClose: true,
+                        message: '文章内容为空',
+                        type: 'warning'
+                    });
+                }else {
+                    return true;
+                }
+                return false;
+            },
             onSubmit(type = 1) {
                 var self = this;
                 self.isSubmiting = true;
                 self.form.status = type;
                 self.form.content = $('#summernote').summernote('code');
-
-                var form = new Form();
-                form.setSubmit(self.form, (result,error)=>{
-                    if(result){
-                        self.$message({
-                            title: '提示',
-                            message: result,
-                            type: 'success'
-                        });
-                        self.isSubmiting = false;
-                        //跳转
-                        /*self.$router.push({
-                            path: '/user/org'
-                        })*/
-                    }
-                    else {
-                        self.$message({
-                            title: '提示',
-                            message: error,
-                            type: 'warning'
-                        });
-                        self.isSubmiting = false;
-                    }
-                });
+                if(this.test()){
+                    var form = new Form();
+                    form.setSubmit(self.form, (result,error)=>{
+                        if(result){
+                            self.$message({
+                                title: '提示',
+                                message: result,
+                                type: 'success'
+                            });
+                            //跳转
+                            /*self.$router.push({
+                                path: '/user/org'
+                            })*/
+                        }
+                        else {
+                            self.$message({
+                                title: '提示',
+                                message: error,
+                                type: 'warning'
+                            });
+                        }
+                    });
+                }
+                self.isSubmiting = false;
             },
             create_summernote(){
                 $('#summernote').summernote({
@@ -273,14 +291,45 @@
                 this.inputVisible = false;
                 this.inputValue = '';
             },
-            resetForm(formName) {
-                this.$refs[formName].resetFields();
-                this.dynamicTags = [];
-                $('#summernote').summernote('code','');
+//            resetForm(formName) {
+//                this.$refs[formName].resetFields();
+//                this.dynamicTags = [];
+//                $('#summernote').summernote('code','');
+//            },
+            giveUp(){
+                let self = this;
+                this.$confirm('确认放弃编辑吗？', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(function () {
+                    //跳转
+                    /*self.$router.push({
+                        path: '/user/org'
+                    })*/
+                }).catch(function (error) {
+                    console.log(error);
+                })
+            },
+            getTag(){
+                var self = this;
+                var form = new Form();
+                form.getTag((result,error)=>{
+                    if(result){
+                        result.forEach(function(value) {
+                            value.type = 'warning';
+                        });
+                        self.dynamicTags = result;
+                    }
+                    else {
+                        self.dynamicTags = [];
+                    }
+                });
             }
         },
         mounted(){
             this.create_summernote();
+            this.getTag();
         }
     };
 </script>

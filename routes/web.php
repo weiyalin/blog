@@ -11,16 +11,14 @@
 |
 */
 
-Route::get('/', function () {
-//    return view('welcome');
-    $user = [
-        'id'   => 1,
-        'name' => 'admin'
-    ];
-    session('user',$user);
-    return view('index');
-});
-Route::get('get_menu','User\MenuController@get_menu');
-//Route::get('/get_role_menu','User\MenuController@/get_role_menu');
+Route::get('/login', 'LoginController@index');
+Route::post('/login', 'LoginController@login');
+Route::any('/logout', 'LoginController@logout');
 
-include('blog.php');
+Route::group(['middleware' => ['login_check']], function () {
+    Route::get('/', function () {
+        return view('index');
+    });
+    Route::get('get_menu','User\MenuController@get_menu');
+    include('blog.php');
+});

@@ -42,7 +42,6 @@ function get_md5_password($password, $salt)
 {
     return md5(md5($password) . $salt);
 }
-
 function get_salt()
 {
     $uuid = create_uuid();

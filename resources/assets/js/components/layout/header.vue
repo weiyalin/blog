@@ -61,16 +61,11 @@
         },
         methods: {
             handleSelect(key, keyPath){
-                console.log(key, keyPath);
-                /*if (key == 'logout') {
-                    this.$http.get('/logout').then(function (res) {
-                        if (res.data.status == 0) {
-                            location.replace('/login');
-                        }
-                    })
+                if (key == 'logout') {
+                    window.location.href="/logout"
                 } else {
                     this.$router.push(key);
-                }*/
+                }
             }
         }
     }

@@ -49,5 +49,6 @@ mix.js('resources/assets/js/app.js', 'js')
     .copy('resources/assets/library/img','public/dist/img')
     .copy('resources/assets/library/summernote-master','public/dist/summernote-master')
     .copy('resources/assets/library/bootstrap-3.3.7','public/dist/bootstrap-3.3.7')
-    .copy('resources/assets/sass/app.css', 'public/dist/css');
+    .copy('resources/assets/sass/app.css', 'public/dist/css')
+    .copy('resources/assets/library/js/', 'public/dist/js');
 

@@ -37,7 +37,14 @@ class CreateController extends Controller
         if ($file->move($destPath, $filename) == false) {
             return responseToJson(3, '保存文件失败！');
         }
-
+/*        $path = storage_path('codes\\'.millisecond().'.png');
+        QrCode::format('png')
+            ->size(200)
+            ->encoding('UTF-8')
+            ->generate('我叫魏亚林', $path);
+        $view = view('welcome',['path' => $path]);
+        $pdf = \PDF::loadHtml($view);
+        return $pdf->download('welcome.pdf');*/
         return responseToJson(0,'success',$filename);
     }
 

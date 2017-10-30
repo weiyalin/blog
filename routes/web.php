@@ -10,7 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('/pdf', 'Article\CreateController@upload');
 Route::get('/login', 'LoginController@index');
 Route::post('/login', 'LoginController@login');
 Route::any('/logout', 'LoginController@logout');

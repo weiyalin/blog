@@ -229,8 +229,9 @@
             },
             handleAvatarSuccess(res, file) {
                 if(res.code == 0){
-                    this.form.coverName = res.result;
-                    this.imageUrl = '/article/cover_img?name='+res.result;
+                    this.$message.error(res.result);
+//                    this.form.coverName = res.result;
+//                    this.imageUrl = '/article/cover_img?name='+res.result;
                 } else {
                     this.$message.error(res.msg);
                 }

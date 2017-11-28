@@ -18,6 +18,7 @@ class LoginController extends Controller
 	public function login(Request $request)
 	{
 		if ($request->isMethod('post')) {
+			// dd($request);
 			$name = $request->name;
 			$pwd = $request->pwd;
 			$user = User::get_account($name);

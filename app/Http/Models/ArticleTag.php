@@ -13,13 +13,14 @@ use Illuminate\Database\Eloquent\Model;
 use DB;
 class ArticleTag extends Model
 {
+    protected $table = 'article_tag';
+    protected $fillable = ['tag_id','article_id'];
     static public function create_article_tag($at){
-        $count = DB::table('article_tag')
-            ->where('tag_id',$at['tag_id'])
+        $count = ArticleTag::where('tag_id',$at['tag_id'])
             ->where('article_id',$at['article_id'])
             ->count();
         if(!$count){
-            DB::table('article_tag')->insert($at);
+            ArticleTag::create($at);
         }
     }
 }

@@ -13,16 +13,19 @@ use Illuminate\Database\Eloquent\Model;
 use DB;
 class Tag extends Model
 {
+    protected $table = 'tag';
+    protected $fillable = ['name','user_id','rate'];
     static function create_tag_get_id($tag){
-        $tag_id = DB::table('tag')->where('name',$tag['name'])->where('user_id',$tag['user_id'])->value('id');
+        $tag_id = Tag::where('name',$tag['name'])->where('user_id',$tag['user_id'])->value('id');
         if($tag_id){
+            Tag::where('name',$tag['name'])->where('user_id',$tag['user_id'])->increment('rate');
             return $tag_id;
         }else{
-            $tag['create_time'] = millisecond();
-            return DB::table('tag')->insertGetId($tag);
+            $tag = Tag::create($tag);
+            return $tag->id;
         }
     }
     static function getTag(){
-        return DB::table('tag')->where('user_id',get_user_id())->get();
+        return Tag::where('user_id',get_user_id())->get();
     }
 }

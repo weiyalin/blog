@@ -29,7 +29,8 @@ class CreateController extends Controller
         if (!$file->isValid()) {
             return responseToJson(2, '文件上传出错！');
         }
-        $destPath = realpath(storage_path('app/cover'));
+        // $destPath = realpath(storage_path('app/cover'));
+        $destPath = storage_path('app/cover');
         if (!file_exists($destPath))
             mkdir($destPath, 0777, true);
         //$filename = $file->getClientOriginalName();
@@ -37,14 +38,6 @@ class CreateController extends Controller
         if ($file->move($destPath, $filename) == false) {
             return responseToJson(3, '保存文件失败！');
         }
-/*        $path = storage_path('codes\\'.millisecond().'.png');
-        QrCode::format('png')
-            ->size(200)
-            ->encoding('UTF-8')
-            ->generate('我叫魏亚林', $path);
-        $view = view('welcome',['path' => $path]);
-        $pdf = \PDF::loadHtml($view);
-        return $pdf->download('welcome.pdf');*/
         return responseToJson(0,'success',$filename);
     }
 
@@ -64,8 +57,6 @@ class CreateController extends Controller
         $status    = Input::get('status');
         $dynamicTags_select = Input::get('dynamicTags_select');
 
-        $now = millisecond();
-
         $article = [
             'copyright'   => $copyright,
             'title'       => $title,
@@ -73,8 +64,6 @@ class CreateController extends Controller
             'summary'     => $summary,
             'content'     => $content,
             'status'      => $status,
-            'create_time' => $now,
-            'update_time' => $now
         ];
         $article_id = Article::create_article_get_id($article,$id);
         if($article_id){

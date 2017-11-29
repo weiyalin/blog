@@ -11,7 +11,6 @@ export default class Form {
             }
 
         }, function (error) {
-            console.log(error);
             callback(false,error);
         });
     }
@@ -19,7 +18,6 @@ export default class Form {
     getTag(callback){
         Vue.http.get('article/getTag').then(function (response) {
             var result = response.data["result"];
-            console.log(result);
             var msg    = response.data["msg"];
             if(response.data.code == 0){
                 callback(result,false);
@@ -29,7 +27,6 @@ export default class Form {
             }
 
         }, function (error) {
-            console.log(error);
             callback(false,error);
         });
     }

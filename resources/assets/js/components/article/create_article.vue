@@ -90,7 +90,7 @@
                         type="textarea"
                         :maxlength='maxLength'
                         :rows="3"
-                        placeholder="请输入内容"
+                        placeholder="默认自动提取您文章的前200字显示在博客首页作为文章摘要，您也可以在这里自行编辑 "
                         v-model.trim="form.summary">
                 </el-input>
             </el-form-item>
@@ -98,7 +98,7 @@
                 <el-button type="primary" @click="onSubmit(1)" :loading="isSubmiting">发布</el-button>
                 <el-button type="primary" @click="onSubmit(0)">存为草稿</el-button>
                 <!--<el-button type="primary" @click="resetForm('form')">舍弃</el-button>-->
-                <el-button type="primary" @click="giveUp">舍弃</el-button>
+                <el-button @click="giveUp" type="danger">舍弃</el-button>
             </el-form-item>
         </el-form>
 
@@ -229,9 +229,8 @@
             },
             handleAvatarSuccess(res, file) {
                 if(res.code == 0){
-                    this.$message.error(res.result);
-//                    this.form.coverName = res.result;
-//                    this.imageUrl = '/article/cover_img?name='+res.result;
+                    this.imageUrl = URL.createObjectURL(file.raw);
+                    this.form.coverName = res.result;
                 } else {
                     this.$message.error(res.msg);
                 }
@@ -309,7 +308,6 @@
                         path: '/user/org'
                     })*/
                 }).catch(function (error) {
-                    console.log(error);
                 })
             },
             getTag(){
@@ -324,6 +322,7 @@
                     }
                     else {
                         self.dynamicTags = [];
+                        
                     }
                 });
             }

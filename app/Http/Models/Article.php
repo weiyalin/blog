@@ -13,14 +13,17 @@ use Illuminate\Database\Eloquent\Model;
 use DB;
 class Article extends Model
 {
+    protected $table = 'article';
+    protected $fillable = ['copyright','title','coverName','summary','content','read_num','status'];
     static function create_article_get_id($article,$id = 0){
         if($id){
-            $count = DB::table('article')->where('id',$id)->count();
+            $count = Article::where('id',$id)->count();
             if($count){
-                DB::table('article')->update($article);
+                Article::update($article);
                 return $id;
             }
         }
-        return DB::table('article')->insertGetId($article);
+        $article = Article::create($article);
+        return $article->id;
     }
 }

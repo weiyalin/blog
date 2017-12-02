@@ -31,4 +31,11 @@ class TagController extends Controller
         
         return responseToJson(0,'查询成功',$students);
     }
+    function deleteTag(Request $request){
+        $id = intval($request->input('id'));
+        if(Tag::destroy($id))
+            return responseToJson(0,'删除成功');
+        else
+            return responseToJson(1,'删除失败');
+    }
 }

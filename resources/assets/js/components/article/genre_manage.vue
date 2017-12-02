@@ -34,7 +34,7 @@
             <el-table-column label="操作">
                 <template scope="scope">
                     <el-button size="small" type="primary" icon="edit">修改</el-button>
-                    <el-button size="small" type="danger" class="el-icon-delete">删除</el-button>
+                    <el-button size="small" type="danger" class="el-icon-delete" @click="deleteTag(scope.row.id)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -87,6 +87,33 @@
                     }
                 })
             },
+            deleteTag(id){
+                let self = this;
+                this.$confirm('确认删除吗？', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(function () {
+                    let query = {id:id};
+                    axios.get('article/deleteTag',{params:query}).then((res) => {
+                        let data = res.data;
+                        if(data.code == 0){
+                            self.$message({
+                                title: '提示',
+                                message: data.msg,
+                                type: 'success'
+                            });
+                            self.getTableData();
+                        }else{
+                            self.$message({
+                                title: '提示',
+                                message: data.msg,
+                                type: 'error'
+                            });
+                        }
+                    })
+                }).catch(function () {});
+            }
         },
         mounted() {
             this.getTableData();

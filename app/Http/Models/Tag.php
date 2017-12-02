@@ -10,10 +10,13 @@ namespace App\Http\Models;
 
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use DB;
 class Tag extends Model
 {
+    use SoftDeletes;
     protected $table = 'tag';
+    protected $dates = ['deleted_at'];
     protected $fillable = ['name','user_id','rate'];
     static function create_tag_get_id($tag){
         $tag_id = Tag::where('name',$tag['name'])->where('user_id',$tag['user_id'])->value('id');

@@ -12,7 +12,7 @@
 
         <el-form :inline="true" @keydown.enter.native="getTableData">
             <el-form-item>
-                <el-button><i class="ion-plus"></i> 添加标签</el-button>
+                <el-button @click="addDialog"><i class="ion-plus"></i> 添加标签</el-button>
             </el-form-item>
             <el-form-item label="关键字">
                 <el-input v-model="keyword" placeholder="标签名称" icon="search"></el-input>
@@ -33,11 +33,23 @@
 
             <el-table-column label="操作">
                 <template scope="scope">
-                    <el-button size="small" type="primary" icon="edit">修改</el-button>
+                    <el-button size="small" type="primary" icon="edit" @click="exitDialog(scope.row.id,scope.row.name)">修改</el-button>
                     <el-button size="small" type="danger" class="el-icon-delete" @click="deleteTag(scope.row.id)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
+        <!-- Form -->
+        <el-dialog :title="dialogType" :visible.sync="dialogFormVisible">
+            <el-form :model="form">
+                <el-form-item label="标签名称">
+                    <el-input v-model.trim="form.name" auto-complete="off"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogFormVisible = false">取 消</el-button>
+                <el-button type="primary" @click="dialogSubmit">确 定</el-button>
+            </div>
+        </el-dialog>
 
         <el-pagination
             @size-change="handleSizeChange"
@@ -59,6 +71,12 @@
                 currentPage : 1,
                 total       : 0,
                 pageSize    : 10,
+                dialogFormVisible: false,
+                dialogType  : '',
+                form: {
+                    id  : 0,
+                    name: '',
+                },
             }
         },
         methods: {
@@ -94,8 +112,7 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(function () {
-                    let query = {id:id};
-                    axios.get('article/deleteTag',{params:query}).then((res) => {
+                    axios.post('article/deleteTag',{id:id}).then((res) => {
                         let data = res.data;
                         if(data.code == 0){
                             self.$message({
@@ -113,6 +130,51 @@
                         }
                     })
                 }).catch(function () {});
+            },
+            exitDialog(id,name){
+                this.form.id    = id;
+                this.form.name  = name;
+                this.dialogType = '修改标签';
+                this.dialogFormVisible = true;
+            },
+            addDialog(){
+                this.form.id    = 0;
+                this.form.name  = '';
+                this.dialogType = '添加标签';
+                this.dialogFormVisible = true;
+            },
+            dialogSubmit(){
+                var self = this;
+                if(self.form.name.length == 0 || self.form.name.length >= 15){
+                    self.$message({
+                        title: '提示',
+                        message: '请填写长度合适的名称',
+                        type: 'error'
+                    });
+                    return false;
+                }
+                
+                axios.post('article/addTag',{
+                    id:self.form.id,
+                    name:self.form.name
+                }).then((res) => {
+                    let data = res.data;
+                    if(data.code == 0){
+                        this.dialogFormVisible = false;
+                        self.$message({
+                            title: '提示',
+                            message: data.msg,
+                            type: 'success'
+                        });
+                        self.getTableData();
+                    }else{
+                        self.$message({
+                            title: '提示',
+                            message: data.msg,
+                            type: 'error'
+                        });
+                    }
+                })
             }
         },
         mounted() {

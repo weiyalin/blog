@@ -7,6 +7,6 @@ Route::group(['prefix' => 'article'], function () {
     
     Route::get("getTag", 'Blog\TagController@getTag');
     Route::get("getTagList", 'Blog\TagController@getTagList');
-    Route::get("deleteTag", 'Blog\TagController@deleteTag');
+    Route::post("deleteTag", 'Blog\TagController@deleteTag');
+    Route::post("addTag", 'Blog\TagController@addTag');
 });
-

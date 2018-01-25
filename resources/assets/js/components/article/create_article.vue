@@ -10,14 +10,14 @@
             </el-breadcrumb>
         </div>
         <el-form :model="form" ref="form"  label-width="80px">
-            <el-form-item label="文章版权" prop="copyright">
-                <el-select v-model="form.copyright" placeholder="请选择版权类型">
+            <el-form-item label="文章类型" prop="copyright">
+                <el-select v-model="form.copyright" placeholder="请选择文章类型">
                     <el-option label="原创" value=1></el-option>
                     <el-option label="转载" value=2></el-option>
                     <el-option label="翻译" value=3></el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="文章封面">
+            <!-- <el-form-item label="文章封面">
                 <el-upload
                         class="avatar-uploader"
                         name="files"
@@ -30,7 +30,7 @@
                     <img v-if="imageUrl" :src="imageUrl" class="avatar">
                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item label="文章标题" prop="title">
                 <el-input v-model.trim="form.title"></el-input>
             </el-form-item>

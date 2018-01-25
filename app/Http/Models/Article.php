@@ -13,8 +13,8 @@ use Illuminate\Database\Eloquent\Model;
 use DB;
 class Article extends Model
 {
-    protected $table = 'article';
-    protected $fillable = ['copyright','title','coverName','summary','content','read_num','status'];
+    protected $table = 'articles';
+    protected $fillable = ['copyright','title','coverName','summary','content','read_num','status','user_id','created_at','updated_at'];
     static function create_article_get_id($article,$id = 0){
         if($id){
             $count = Article::where('id',$id)->count();
@@ -25,5 +25,10 @@ class Article extends Model
         }
         $article = Article::create($article);
         return $article->id;
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany('App\Http\Models\Tag','article_tag','article_id','tag_id');
     }
 }

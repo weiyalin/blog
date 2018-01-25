@@ -15,7 +15,7 @@ use App\Http\Models\Tag;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Input;
-
+use Log;
 class ArticleController extends Controller
 {
     function upload(Request $request){
@@ -64,6 +64,7 @@ class ArticleController extends Controller
             'summary'     => $summary,
             'content'     => $content,
             'status'      => $status,
+            'user_id'     => get_user_id(),
         ];
         $article_id = Article::create_article_get_id($article,$id);
         if($article_id){
@@ -84,5 +85,37 @@ class ArticleController extends Controller
         }else{
             return responseToJson(1,'文章保存失败');
         }
+    }
+    function getArticleList(Request $request){
+        $per_page  = intval($request->input('per_page', 10));
+
+        $keyword   = $request->input('keyword');
+        $copyright = intval($request->input('copyright'));
+        $tagId     = intval($request->input('tagId'));
+
+        $user_id = get_user_id();
+        $query = Article::where('user_id',$user_id);
+
+        // \DB::connection()->enableQueryLog();
+        if($tagId){
+            $query = Tag::find($tagId);
+            if($query->user_id != $user_id)
+                return responseToJson(1,'非法操作');
+            $query = $query->articles()->where('user_id',$user_id);
+        }
+        
+        if($keyword){
+            $query = $query->where('title', 'like', '%'. $keyword . '%');
+        }
+        if($copyright){
+            $query = $query->where('copyright', $copyright);
+        }
+        $query = $query->select('title','copyright','read_num','articles.created_at','articles.updated_at');
+        $articles = $query->paginate($per_page);
+
+        // $queries = \DB::getQueryLog();
+        // Log::info($queries);
+        // Log::info($articles);
+        return responseToJson(0,'查询成功',$articles);
     }
 }

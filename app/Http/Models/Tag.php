@@ -15,7 +15,7 @@ use DB;
 class Tag extends Model
 {
     use SoftDeletes;
-    protected $table = 'tag';
+    protected $table = 'tags';
     protected $dates = ['deleted_at'];
     protected $fillable = ['name','user_id','rate'];
     static function create_tag_get_id($tag){
@@ -30,5 +30,10 @@ class Tag extends Model
     }
     static function getTag(){
         return Tag::where('user_id',get_user_id())->get();
+    }
+
+    public function articles()
+    {
+        return $this->belongsToMany('App\Http\Models\Article','article_tag','tag_id','article_id');
     }
 }

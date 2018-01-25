@@ -15,7 +15,7 @@ class TagController extends Controller
         $tags = [];
         if($tagNames){
             foreach ($tagNames as $tag){
-                $tags[] = ['name' => $tag->name];
+                $tags[] = ['id' => $tag->id,'name' => $tag->name];
             }
         }
         return responseToJson(0,'查询成功',$tags);

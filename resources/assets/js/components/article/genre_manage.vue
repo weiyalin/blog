@@ -32,7 +32,7 @@
             <el-table-column prop="updaed_at" label="更新时间"></el-table-column>
 
             <el-table-column label="操作">
-                <template scope="scope">
+                <template slot-scope="scope">
                     <el-button size="small" type="primary" icon="edit" @click="exitDialog(scope.row.id,scope.row.name)">修改</el-button>
                     <el-button size="small" type="danger" class="el-icon-delete" @click="deleteTag(scope.row.id)">删除</el-button>
                 </template>
